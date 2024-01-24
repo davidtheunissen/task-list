@@ -1,0 +1,45 @@
+{% extends 'taskApp/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Finished Tasks
+{% endblock %}
+
+{% block body %}
+    <div class="container border">
+        <div class="row d-flex justify-content-center p-4">
+            <h1>Finished Tasks</h1>
+        </div>
+
+        {% for task in finished_tasks %}
+                <div class="row mx-5 my-3">
+                    <!-- Task name, description and timestamp -->
+                    <div class="col">
+                        <h5>{{ task.name }}</h5>
+                        <h6>{{ task.description }}</h6>
+                        <p>Created at: {{ task.createdAt }}</p>
+                    </div>
+
+                    <!-- Deadline -->
+                    <div class="col ml-5">
+                        <div class="row">
+                            <h6>Deadline:</h6>
+                        </div>
+                        <div class="row">
+                            <p>{{ task.deadline }}</p>
+                        </div>
+                    </div>
+
+                    <!-- 'Undo' button -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-secondary" href="{% url 'undo_task' id=task.id %}">Undo</a>
+                    </div>
+
+                    <!-- 'Delete' button -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-danger" href="{% url 'delete_task' id=task.id %}">Delete</a>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}

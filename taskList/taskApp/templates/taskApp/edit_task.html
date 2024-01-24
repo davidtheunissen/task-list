@@ -1,0 +1,38 @@
+{% extends 'taskApp/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Task
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit Task</h1>
+        
+        <!-- Task Form -->
+        <form action="{% url 'edit_task' id=task_id %}" method="post">
+            {% csrf_token %}
+            <!-- Task name -->
+            <div class="form-group">
+                <label for="task_name">Task: </label>
+                <input type="text" class="form-control" id="task_name" name="task_name" placeholder="{{ task_name }}">
+            </div>
+
+            <!-- Task description -->
+            <div class="form-group">
+                <label for="task_description">Description: </label>
+                <input type="text" class="form-control" id="task_description" name="task_description" placeholder="{{ task_description }}">
+            </div>
+
+            <!-- Deadline -->
+            <div class="form-group">
+                <label for="task_deadline">Description: </label>
+                <input type="date" class="form-control" id="task_deadline" name="task_deadline" placeholder="{{ task_deadline }}">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

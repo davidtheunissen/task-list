@@ -1,0 +1,50 @@
+{% extends 'taskApp/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Todo Tasks
+{% endblock %}
+
+{% block body %}
+    <div class="container border">
+        <div class="row d-flex justify-content-center p-4">
+            <h1>Todo Tasks</h1>
+        </div>
+
+        {% for task in todo_tasks %}
+                <div class="row bg-light mx-5 my-3">
+                    <!-- Task name, description and timestamp -->
+                    <div class="col">
+                        <h5>{{ task.name }}</h5>
+                        <h6>{{ task.description }}</h6>
+                        <p>Created at: {{ task.createdAt }}</p>
+                    </div>
+
+                    <!-- Deadline -->
+                    <div class="col ml-5">
+                        <div class="row">
+                            <h6>Deadline:</h6>
+                        </div>
+                        <div class="row">
+                            <p>{{ task.deadline }}</p>
+                        </div>
+                    </div>
+
+                    <!-- 'Edit' button -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-warning btn-sm" href="{% url 'edit_task' id=task.id %}">Edit</a>
+                    </div>
+
+                    <!-- 'Done' button -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-primary" href="{% url 'finish_task' id=task.id %}?next=todo_tasks">Done</a>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+
+    <!--'Create Task' button -->
+    <div class="container d-flex justify-content-center p-4">
+        <a class="btn btn-primary btn-lg" href="{% url 'create_task' %}">Create Task</a>
+    </div>
+{% endblock %}

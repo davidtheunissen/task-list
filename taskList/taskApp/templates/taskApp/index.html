@@ -1,0 +1,75 @@
+{% extends 'taskApp/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Task List
+{% endblock %}
+
+{% block body %}
+    <div class="container border">
+        <div class="row d-flex justify-content-center p-4">
+            <h1>Task List</h1>
+        </div>
+
+        {% for task in all_tasks %}
+            {% if task.isActive %}
+                <div class="row bg-light mx-5 my-3">
+                    <!-- Task name, description and timestamp -->
+                    <div class="col">
+                        <h5>{{ task.name }}</h5>
+                        <h6>{{ task.description }}</h6>
+                        <p>Created at: {{ task.createdAt }}</p>
+                    </div>
+
+                    <!-- Deadline -->
+                    <div class="col ml-5">
+                        <div class="row">
+                            <h6>Deadline:</h6>
+                        </div>
+
+                        <!-- If task is overdue, change color to red -->
+                        {% if task.deadline|date:'Y-m-d H:i:s' < today|date:'Y-m-d H:i:s' %}                       
+                        <div class="row" style="color: red;">
+                            <p>{{ task.deadline }}</p>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <p>{{ task.deadline }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- 'Edit' button -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-warning btn-sm" href="{% url 'edit_task' id=task.id %}">Edit</a>
+                    </div>
+
+                    <!-- 'Done' button if task is not done -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-primary" href="{% url 'finish_task' id=task.id %}?next=index">Done</a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if not task.isActive %}
+                <div class="row mx-5 my-3" style="color: green;">
+                    <!-- Task name, description and timestamp -->
+                    <div class="col">
+                        <h5>{{ task.name }}</h5>
+                        <h6>{{ task.description }}</h6>
+                        <p>Created at: {{ task.createdAt }}</p>
+                    </div>
+
+                    <!-- 'Undo' button if task is done -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <a class="btn btn-outline-secondary" href="{% url 'undo_task' id=task.id %}">Undo</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- 'Create Task' button -->
+    <div class="container d-flex justify-content-center p-4">
+        <a class="btn btn-primary btn-lg" href="{% url 'create_task' %}">Create Task</a>
+    </div>
+{% endblock %}
